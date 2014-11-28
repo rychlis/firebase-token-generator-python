@@ -14,5 +14,6 @@ setup(
     license='LICENSE',
     url='https://github.com/firebase/firebase-token-generator-python',
     description='A utility to generate signed Firebase Authentication Tokens',
-    long_description=read('README')
+    long_description=read('README'),
+    install_requires=['six']
 )

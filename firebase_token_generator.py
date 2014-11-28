@@ -3,6 +3,7 @@ from base64 import urlsafe_b64encode
 import hashlib
 import hmac
 import sys
+import six
 try:
     import json
 except ImportError:
@@ -67,7 +68,7 @@ def create_token(secret, data, options=None):
         ValueError: if an invalid key is specified in options
 
     """
-    if not isinstance(secret, basestring):
+    if not isinstance(secret, six.string_types):
         raise ValueError("firebase_token_generator.create_token: secret must be a string.")
     if not options and not data:
         raise ValueError("firebase_token_generator.create_token: data is empty and no options are set.  This token will have no effect on Firebase.");
@@ -89,7 +90,7 @@ def _validate_data(data, is_admin_token):
     if data is not None and not isinstance(data, dict):
         raise ValueError("firebase_token_generator.create_token: data must be a dictionary")
     contains_uid = (data is not None and 'uid' in data)
-    if ((not contains_uid and not is_admin_token) or (contains_uid and not isinstance(data['uid'], basestring))):
+    if ((not contains_uid and not is_admin_token) or (contains_uid and not isinstance(data['uid'], six.string_types))):
         raise ValueError("firebase_token_generator.create_token: data must contain a \"uid\" key that must be a string.")
     if (contains_uid and (len(data['uid']) > 256)):
         raise ValueError("firebase_token_generator.create_token: data must contain a \"uid\" key that must not be longer than 256 bytes.")
